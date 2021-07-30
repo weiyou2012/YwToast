@@ -103,7 +103,7 @@ public final class YwToast {
         tView.widthAnchor.constraint(lessThanOrEqualToConstant: 256.0).isActive = true
         
         DispatchQueue.main.asyncAfter(deadline: .now() + delayTime) {
-            tView.removeFromSuperview()
+            self.disappearAnimation(on: tView)
         }
     }
     
@@ -122,12 +122,32 @@ public final class YwToast {
         tView.heightAnchor.constraint(equalToConstant: 90.0).isActive = true
         
         DispatchQueue.main.asyncAfter(deadline: .now() + delayTime) {
-            tView.removeFromSuperview()
+            self.disappearAnimation(on: tView)
         }
     }
+    
+    
 
     public init() {
         
+    }
+    
+    deinit {
+        print("Yw Toast deinit.")
+    }
+}
+
+extension YwToast {
+    
+    /// 淡出的动画
+    private func disappearAnimation(on view: UIView) {
+        UIView.animate(withDuration: 0.5) {
+            view.alpha = 0.0
+        } completion: { isEnd in
+            if isEnd {
+                view.removeFromSuperview()
+            }
+        }
     }
 }
 
